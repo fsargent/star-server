@@ -38,6 +38,7 @@
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
     "fraction.js": "^4.3.7",
+    "fractional": "^1.0.0",
     "jsonwebtoken": "^9.0.0",
     "kysely": "^0.27.2",
     "luxon": "^3.3.0",
