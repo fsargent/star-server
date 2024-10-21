@@ -4,6 +4,7 @@ import { Plurality } from "./Plurality";
 import { IRV, STV } from "./IRV";
 import { RankedRobin } from "./RankedRobin";
 import { AllocatedScore } from "./AllocatedScore";
+import { EqualShares } from "./EqualShares";
 
 export const VotingMethods: { [id: string]: Function } = {
     STAR: Star,
@@ -12,5 +13,6 @@ export const VotingMethods: { [id: string]: Function } = {
     Plurality: Plurality,
     IRV: IRV,
     STV: STV,
-    RankedRobin: RankedRobin
+    RankedRobin: RankedRobin,
+    EqualShares: EqualShares
 }

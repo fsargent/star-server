@@ -16,13 +16,19 @@
         "type": "apiKey",
         "in": "cookie",
         "name": "id_token",
-        "description": "This uses authenticaion token generated with a secret obtained from keycloak, the token can be sent both as a cookie named id_token or in the auth_key property of the election object. [More information about token generation can be found here](https://github.com/Equal-Vote/star-server/blob/6fdb2f653266b5f2710f0701509f54e1e558ecc1/docs/api.md)<br><br>For API testing:<br>\n                        1. [log in here](https://keycloak.prod.equal.vote/realms/Prod/protocol/openid-connect/auth?client_id=web&response_type=code&redirect_uri=http://localhost:3000&scope=openid)<br>\n                        2. Copy the token from the cookie named id_token by inspecting the page and going to the Application tab.<br>\n                        3. Inspect this page and create an id_token cookie with the value you copied from the previous step.<br>\n                        **Pasting it into the field below won't work since swagger doesn't allow setting cookies**"
+        "description": "This uses authenticaion token generated with a secret obtained from keycloak, the token can be sent both as a cookie named id_token or in the auth_key property of the election object. [More information about token generation can be found here](https://github.com/Equal-Vote/star-server/blob/6fdb2f653266b5f2710f0701509f54e1e558ecc1/docs/api.md)<br><br>For API testing [log in here](https://keycloak.prod.equal.vote/realms/Prod/protocol/openid-connect/auth?client_id=web&response_type=code&redirect_uri=https://bettervoting.com/API/Docs&scope=openid)"
       }
     },
     "schemas": {
       "AnonymizedBallot": {
         "properties": {
           "ballot_id": {
+            "type": "string"
+          },
+          "election_id": {
+            "type": "string"
+          },
+          "precinct": {
             "type": "string"
           },
           "votes": {
@@ -34,6 +40,7 @@
         },
         "required": [
           "ballot_id",
+          "election_id",
           "votes"
         ],
         "type": "object"
@@ -407,6 +414,22 @@
               },
               "votingMethod": {
                 "const": "STV",
+                "type": "string"
+              }
+            },
+            "required": [
+              "results",
+              "votingMethod"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "results": {
+                "$ref": "#/components/schemas/equalSharesResults"
+              },
+              "votingMethod": {
+                "const": "EqualShares",
                 "type": "string"
               }
             },
@@ -1566,6 +1589,166 @@
           "index",
           "name",
           "tieBreakOrder"
+        ],
+        "type": "object"
+      },
+      "equalSharesResults": {
+        "properties": {
+          "elected": {
+            "items": {
+              "$ref": "#/components/schemas/candidate"
+            },
+            "type": "array"
+          },
+          "other": {
+            "items": {
+              "$ref": "#/components/schemas/candidate"
+            },
+            "type": "array"
+          },
+          "roundResults": {
+            "items": {
+              "$ref": "#/components/schemas/roundResults"
+            },
+            "type": "array"
+          },
+          "summaryData": {
+            "$ref": "#/components/schemas/equalSharesSummaryData"
+          },
+          "tieBreakType": {
+            "$ref": "#/components/schemas/tieBreakType"
+          },
+          "tied": {
+            "items": {
+              "items": {
+                "$ref": "#/components/schemas/candidate"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "elected",
+          "other",
+          "roundResults",
+          "summaryData",
+          "tieBreakType",
+          "tied"
+        ],
+        "type": "object"
+      },
+      "equalSharesSummaryData": {
+        "properties": {
+          "budgetByRound": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/candidate"
+            },
+            "type": "array"
+          },
+          "nBulletVotes": {
+            "type": "number"
+          },
+          "nInvalidVotes": {
+            "type": "number"
+          },
+          "nUnderVotes": {
+            "type": "number"
+          },
+          "nValidVotes": {
+            "type": "number"
+          },
+          "noPreferenceStars": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "pairwiseMatrix": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "preferenceMatrix": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "scoreHist": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "spentAboves": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "splitPoints": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "totalScores": {
+            "items": {
+              "$ref": "#/components/schemas/totalScore"
+            },
+            "type": "array"
+          },
+          "weight_on_splits": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "weightedScoresByRound": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "budgetByRound",
+          "candidates",
+          "nInvalidVotes",
+          "nUnderVotes",
+          "nValidVotes",
+          "noPreferenceStars",
+          "pairwiseMatrix",
+          "preferenceMatrix",
+          "scoreHist",
+          "spentAboves",
+          "splitPoints",
+          "totalScores",
+          "weight_on_splits",
+          "weightedScoresByRound"
         ],
         "type": "object"
       },
@@ -2788,7 +2971,7 @@
                 "type": "object",
                 "properties": {
                   "Election": {
-                    "$ref": "#/components/schemas/Election"
+                    "$ref": "#/components/schemas/NewElection"
                   }
                 }
               }
@@ -2805,7 +2988,7 @@
                   "properties": {
                     "election": {
                       "type": "object",
-                      "$ref": "#/components/schemas/NewElection"
+                      "$ref": "#/components/schemas/Election"
                     }
                   }
                 }

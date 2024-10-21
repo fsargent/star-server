@@ -53,6 +53,15 @@ export interface allocatedScoreSummaryData extends starSummaryData {
     weight_on_splits: number[],
     weightedScoresByRound: number[][]
 }
+
+export interface equalSharesSummaryData extends starSummaryData {
+  budgetByRound: number[][];
+  spentAboves: number[];
+  splitPoints: number[];
+  weight_on_splits: number[];
+  weightedScoresByRound: number[][];
+}
+
 export interface approvalSummaryData extends genericSummaryData { }
 
 export interface pluralitySummaryData extends genericSummaryData { }
@@ -111,6 +120,11 @@ export interface rankedRobinResults extends genericResults {
     summaryData: rankedRobinSummaryData,
 }
 
+export interface equalSharesResults extends Omit<genericResults, 'tied'> {
+  tied: candidate[][];
+  summaryData: equalSharesSummaryData;
+}
+
 export interface irvRoundResults {
     winners: candidate[],
     eliminated: candidate[],
@@ -147,4 +161,7 @@ export type ElectionResults = {
 } | {
     votingMethod: 'STV',
     results: irvResults
+} | {
+    votingMethod: 'EqualShares',
+    results: equalSharesResults
 }
