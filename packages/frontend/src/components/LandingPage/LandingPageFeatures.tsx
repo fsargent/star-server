@@ -36,8 +36,8 @@ export default () => {
                     flexDirection: 'row',
                     flexWrap: 'wrap',
                     justifyContent: 'center',
-                    paddingTop: '5rem',
-                    gap: '3rem',
+                    paddingTop: '2rem',
+                    gap: '2rem',
                 }}>
                     {panels.map((panel, i) => <Box key={i}><FadeUp delay={`${i*100}ms`}><Box sx={{width: '380px'}}>
                         <Typography variant='h4' sx={{color: 'darkShade.contrastText'}}>{panel.title}</Typography>

@@ -35,7 +35,6 @@ export default ({electionId}) => {
 
     return <Card className='featuredElection' onClick={() => navigate(`/${electionId}`)} elevation={8} sx={{
         width: '100%',
-        maxWidth: '20rem',
         display: 'flex',
         flexDirection: 'column',
         flexShrink: '0',

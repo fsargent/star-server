@@ -51,7 +51,7 @@ const Header = () => {
         setAnchorElUser(null);
     };
 
-    const navTextSx = {fontWeight: 'bold', fontSize: '1rem'};
+    const navTextSx = {fontWeight: 'bold'};
 
     const navItems = [
         {
